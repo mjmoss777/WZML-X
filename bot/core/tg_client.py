@@ -1,5 +1,6 @@
 from pyrogram import Client, enums
-from asyncio import Lock, gather
+from pyrogram.errors import FloodWait
+from asyncio import Lock, gather, sleep
 from hashlib import sha256
 from inspect import signature
 
@@ -81,7 +82,16 @@ class TgClient:
             bot_token=Config.BOT_TOKEN,
             workdir="/usr/src/app",
         )
-        await cls.bot.start()
+        while True:
+            try:
+                await cls.bot.start()
+                break
+            except FloodWait as e:
+                wait_time = int(e.value) + 5
+                LOGGER.warning(
+                    f"Telegram flood wait while starting bot; sleeping {wait_time} seconds"
+                )
+                await sleep(wait_time)
         cls.BNAME = cls.bot.me.username
         cls.ID = Config.BOT_TOKEN.split(":", 1)[0]
         LOGGER.info(f"WZ Bot : [@{cls.BNAME}] Started!")
