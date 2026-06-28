@@ -1,5 +1,6 @@
 from importlib import import_module
 from os import getenv
+from wz_bin import bin_name
 
 
 class Config:
@@ -261,8 +262,8 @@ class Config:
 
 
 class BinConfig:
-    ARIA2_NAME = "blitzfetcher"
-    QBIT_NAME = "stormtorrent"
-    FFMPEG_NAME = "mediaforge"
-    RCLONE_NAME = "ghostdrive"
-    SABNZBD_NAME = "newsripper"
+    ARIA2_NAME = bin_name(0)
+    QBIT_NAME = bin_name(1)
+    FFMPEG_NAME = bin_name(2)
+    RCLONE_NAME = bin_name(3)
+    SABNZBD_NAME = bin_name(4)
